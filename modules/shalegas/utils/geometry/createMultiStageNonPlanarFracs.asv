@@ -1,0 +1,49 @@
+function [fl,xy_wells]=createMultiStageNonPlanarFracs(NumFracs,Frac_Spacing,Frac_halfLength,Frac_StartXY)
+%{
+Create multi-stage non-planar hydraulic fractures
+The total length is constrained by planar case
+
+Arguments
+---------
+fl        --  NFx4 array of fracture segment length 
+xy_wells  --  NFx2 array of center well location
+
+Author:Bin Wang
+Date: Nov.21.2018
+%}
+
+TargetLength=NumFracs*2*Frac_halfLength;
+fl=[];
+xy_wells=[];
+
+%Side Non-planar frac
+for fi=1:NumFracs/2
+    xy_center=[Frac_StartXY(1)+(2*fi-1-1)*Frac_Spacing Frac_StartXY(2)+Frac_halfLength];
+    [fl_new,len]=createNonPlanarFrac(xy_center,0.3,Frac_halfLength*1.1,'random');
+    TargetLength=TargetLength-len
+    fl=[fl; fl_new];% fractures lines in [x1 y1 x2 y2] format.
+    xy_wells=[xy_wells; xy_center];
+end
+
+%Odd final frac
+if(mod(NumFracs,2)==1)
+    fi=NumFracs-1;
+    xy_center=[Frac_StartXY(1)+fi*Frac_Spacing Frac_StartXY(2)+Frac_halfLength];
+    [fl_new,len]=createNonPlanarFrac(xy_center,0.3,Frac_halfLength*1.1,'random');
+    TargetLength=TargetLength-len
+    fl=[fl; fl_new];% fractures lines in [x1 y1 x2 y2] format.
+    xy_wells=[xy_wells; xy_center];
+end
+
+%Center planar frac
+for fi=1:(NumFracs-numel())
+    xy_center=[Frac_StartXY(1)+(2*fi-1)*Frac_Spacing Frac_StartXY(2)+Frac_halfLength];
+    [fl_new,len]=createPlanarFrac(xy_center,TargetLength/(NumFracs/2)/2);
+    fl=[fl; fl_new];% fractures lines in [x1 y1 x2 y2] format.
+    xy_wells=[xy_wells; xy_center];
+end
+TargetLength=TargetLength-len*fi
+
+
+
+end

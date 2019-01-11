@@ -1,0 +1,10 @@
+[submodule "upr"]
+	path = upr
+	url = https://github.com/moyner/UPR.git
+[submodule "fvbiot"]
+	path = fvbiot
+	url = https://github.com/keileg/fvbiot.git
+[submodule "geochemistry"]
+	path = geochemistry
+	url = git@bitbucket.org:mrst/matlab-geochemistry.git
+	branch = master
