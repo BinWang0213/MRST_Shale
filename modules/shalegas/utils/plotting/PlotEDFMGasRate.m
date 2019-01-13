@@ -91,7 +91,7 @@ end
 
 Case1_GridLGREDFM_NFs_GasProEDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
 cumPro=cumtrapz(time_list, convertTo(-[ws_mat(:).qWs]*h, meter^3/day));
-cumPro(end)
+CumulativeProduction=cumPro(end)
 %[mean(M(15:end,2)./PROs(15:end)') mean(M(15:end,3)./PROr(15:end)')]
 csvwrite('LGR250.csv',[time PROs'],1);
 end
