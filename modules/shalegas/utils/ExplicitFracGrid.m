@@ -97,7 +97,12 @@ CellSize_Y=y(end)-y(end-1);
 
 %Log-scale refinement for well
 center_cell_width=FracCellSize_Y; %Well cell centerlizer
-n_refinement=round(2*Frac_halfLength/CellSize_Y/1.5);
+if(opt.NY_FracRefine==-1)
+    n_refinement=round(2*Frac_halfLength/CellSize_Y/1.5);
+    if(n_refinement<2), n_refinement=2;end
+else
+    n_refinement=opt.NY_FracRefine;
+end
 y_refinement=symmetric_linspace(y_center-Frac_halfLength,...
     y_center+Frac_halfLength,...
     n_refinement,center_cell_width);
