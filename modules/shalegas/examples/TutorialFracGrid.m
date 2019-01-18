@@ -26,7 +26,7 @@ NumNaturalFracs=0;
 %%{
 G = ExplicitFracGrid(physdim,...
     NumFracs,Frac_Spacing,Frac_halfLength,Frac_StartXY,...
-    'NX_FracRefine',3,... % NX for each half fracture spacing
+    'NX_FracRefine',5,... % NX for each half fracture spacing
     'NY_FracRefine',2,...% NY for half fracture length
     'NY_OutRefine',1,... % NY for region out of fracture
     'FracCellSize',10*ft,... % DX for fracture cell, fracture aperature 

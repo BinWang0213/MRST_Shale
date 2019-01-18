@@ -185,25 +185,58 @@ if (abs(a-b)<1e-9)
    x_space=[];
 elseif(abs(abs(a-b)-abs(center_space))<1e-9 || n_refinement<=1)
    x_space=[a b];
-else
-    %Create a log space range from (0,1)
-    x_refine=(logspace(0,log10(11),n_refinement)-1)/10;
+else  
+    %new approach
+    x_refine = logspace(log10(center_space/2),log10((b-a)/2),n_refinement-1);
+    DX=diff(x_refine);DX=DX(DX>center_space); %Remove element size less than the center space
+    x_refine_temp=cumsum([x_refine(1) DX]); x_refine_temp(end)=x_refine(end);
+    x_refine=x_refine_temp;
+    center=(a+b)/2.0;
+    x_space = center + [-fliplr(x_refine), x_refine];
+%     dx = diff(x_space);
+
+
+%%
+%Mesh refinement study
+% N = 2^n*m = 1
+% N is NX_FracRefine for finest mesh
+% n is number of levels of coarse grids (excluding the finest mesh)
+% m  is the NX_FracRefine for the most coarse grid
+    x_space_left = center - fliplr(x_refine);
+    x_space_right = center + x_refine;
+    x_space2 = [x_space_left(1:2:end), x_space_left(end),...
+                x_space_right(1:2:end), x_space_right(end)];    
     
-    center=(a+b)/2;
-    %x_space_right=rescale(x_refine,center+center_space/2,b);
-    x_space_right=scaledata(x_refine,center+center_space/2,b);
-    x_space_left=-fliplr(x_space_right-center) + (center);
-    
-    if(center_space==0.0)
-        x_space_right=x_space_right(2:end);
-    end
-    
-    x_space=[x_space_left x_space_right];
+     
+%     x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+%     x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+%     x_space3 = [x_space_left(1:2:end), x_space_left(end),...
+%                 x_space_right(1:2:end), x_space_right(end)]; 
+%             
+%             
+%     x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+%     x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+%     x_space4 = [x_space_left(1:2:end), x_space_left(end),...
+%                 x_space_right(1:2:end), x_space_right(end)];  
+            
+            
+    [x_space3,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right); 
+    [x_space4,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right);
+
 end
 
 
 
 end
+
+function [x_space,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right)
+    x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+    x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+    x_space = [x_space_left(1:2:end), x_space_left(end),...
+                x_space_right(1:2:end), x_space_right(end)];  
+end
+
+
 
 function dataout = scaledata(datain,minval,maxval)
 %

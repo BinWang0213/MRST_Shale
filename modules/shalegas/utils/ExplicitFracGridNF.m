@@ -23,15 +23,16 @@ opt = struct('NX_FracRefine',3, ...
              'FracCellSize',0.01*ft,...
              'FracCellSize_Y',-1,...
              'NY_OutRefine',-1,...
+             'NY_FracRefine',-1,...
              'NumNFs',-1,...
              'NFCellSize',-1,...
-             'NY_Refine',-1,...
              'NY_LogRefine',true,...
              'NF_FracRefine',-1,...
              'NF_Spacing',-1,...
              'NF_Length',-1,...
              'NF_RepeatPatternSpace',-1,...
-             'NF_StartXY',-1);
+             'NF_StartXY',-1,...
+             'EDFM_Grid',0);
 opt = merge_options(opt, varargin{:});
 
 n_refinement=opt.NX_FracRefine;
@@ -68,6 +69,12 @@ x=[x x_uniform];
 center_cell_width=opt.FracCellSize; %Fracture aperature
 x_refinement=symmetric_logspace(0,Frac_Spacing,n_refinement,center_cell_width);
 
+if(opt.EDFM_Grid==1)%LGR+EDFM
+    middle_cell_idx=numel(x_refinement)/2;
+    x_refinement=[x_refinement(1:middle_cell_idx-1) ...
+                  x_refinement(middle_cell_idx+2:end)];
+end
+
 for fi=1:NumFracs
     StartPts=Frac_StartXY(1)-Frac_Spacing/2+(fi-1)*Frac_Spacing;
     x=[x(1:end-1) x_refinement+StartPts];
@@ -78,7 +85,7 @@ for fi=1:NumFracs
         StartPts+Frac_Spacing/2 Frac_StartXY(2)...
         StartPts+Frac_Spacing/2 Frac_StartXY(2)+2*Frac_halfLength];
 end
-CellSize_X=x(2)-x(1)
+CellSize_X=mean(diff(x))
 
 %Right unifrom space
 x_uniform=symmetric_linspace(x(end),physdim(1),n_refinement2,0);
@@ -92,20 +99,27 @@ y_center=Frac_StartXY(2)+Frac_halfLength;
 
 y=[];
 %bottom uniform space
-%Option 1. Match with cell size in X
-CellSize_Y=CellSize_X/ratio;
-%n_refinement2=DimY/CellSize_Y/5.7;
-n_refinement2=DimY/CellSize_Y/6.5; 
-%Option2. Defined by user
-n_refinement2=n_refinement2_y;
+if(opt.NY_OutRefine==-1) %Calculate by cell size ratio
+    CellSize_Y=CellSize_X/ratio;
+    %n_refinement2=DimY/CellSize_Y/5.7;
+    n_refinement2=DimY/CellSize_Y/6.5;
+else%Input by user
+    n_refinement2=opt.NY_OutRefine;
+end
+
 y_uniform=symmetric_linspace(0,y_center-Frac_halfLength,n_refinement2,0);
 y=[y y_uniform];
 CellSize_Y=y(end)-y(end-1);
 
 %Log-scale refinement for well
-if(opt.NumNFs==-1)
+if(opt.NumNFs<=0)
     center_cell_width=FracCellSize_Y; %Well cell centerlizer
-    n_refinement=round(2*Frac_halfLength/CellSize_Y/1.5);
+    if(opt.NY_FracRefine==-1)
+        n_refinement=round(2*Frac_halfLength/CellSize_Y/1.5);
+        if(n_refinement<2), n_refinement=2;end
+    else
+        n_refinement=opt.NY_FracRefine;
+    end
     y_refinement=symmetric_linspace(y_center-Frac_halfLength,...
         y_center+Frac_halfLength,...
         n_refinement,center_cell_width);
@@ -118,19 +132,18 @@ end
 
 if(opt.NumNFs>0)
     %Unifrom refine Y
-    y_refinement=symmetric_linspace(0,opt.NF_Spacing,opt.NY_Refine,FracCellSize_Y);
+    y_refinement=symmetric_linspace(0,opt.NF_Spacing,opt.NY_FracRefine,FracCellSize_Y);
     %Log refine
     if(opt.NY_LogRefine==true)
         y_refinement=symmetric_logspace(0,opt.NF_Spacing,opt.NY_Refine,FracCellSize_Y);
+        %Log refine single fracture cell
+        center_cell_width=opt.NFCellSize; %Well cell centerlizer
+        y_frac_cell_refinement=symmetric_logspace(0,FracCellSize_Y,opt.NF_FracRefine,center_cell_width);
+        y_refinement=[y_refinement(1:numel(y_refinement)/2-1) ...
+            y_frac_cell_refinement+y_refinement(numel(y_refinement)/2) ...
+            y_refinement(numel(y_refinement)/2+2:end)];
     end
 
-    %Log refine single fracture cell
-    center_cell_width=opt.NFCellSize; %Well cell centerlizer
-    y_frac_cell_refinement=symmetric_logspace(0,FracCellSize_Y,opt.NF_FracRefine,center_cell_width);
-    y_refinement=[y_refinement(1:numel(y_refinement)/2-1) ...
-                  y_frac_cell_refinement+y_refinement(numel(y_refinement)/2) ...
-                  y_refinement(numel(y_refinement)/2+2:end)];
-    
     for fi=1:opt.NumNFs
         StartPts=opt.NF_StartXY(2)+(fi-1)*opt.NF_Spacing;
         y=[y(1:end-1) y_refinement+StartPts];
@@ -231,6 +244,7 @@ plotFracGeo([1990*ft 1990*ft 150*ft],fl,[],'FigSize',600);
 field=repmat(0,NX,NY);
 cellInx = sub2ind(G.cartDims, FracCell_I', FracCell_J);
 field(cellInx)=1;
+field(cellInx(NFStartIdx:end))=0.5;
 plotCellData (G , field(:),'FaceAlpha',0.5);
 colorbar ('horiz'); view (2); axis equal tight ;
 %}
@@ -289,25 +303,58 @@ if (abs(a-b)<1e-9)
    x_space=[];
 elseif(abs(abs(a-b)-abs(center_space))<1e-9 || n_refinement<=1)
    x_space=[a b];
-else
-    %Create a log space range from (0,1)
-    x_refine=(logspace(0,log10(11),n_refinement)-1)/10;
+else  
+    %new approach
+    x_refine = logspace(log10(center_space/2),log10((b-a)/2),n_refinement-1);
+    DX=diff(x_refine);DX=DX(DX>center_space); %Remove element size less than the center space
+    x_refine_temp=cumsum([x_refine(1) DX]); x_refine_temp(end)=x_refine(end);
+    x_refine=x_refine_temp;
+    center=(a+b)/2.0;
+    x_space = center + [-fliplr(x_refine), x_refine];
+%     dx = diff(x_space);
+
+
+%%
+%Mesh refinement study
+% N = 2^n*m = 1
+% N is NX_FracRefine for finest mesh
+% n is number of levels of coarse grids (excluding the finest mesh)
+% m  is the NX_FracRefine for the most coarse grid
+    x_space_left = center - fliplr(x_refine);
+    x_space_right = center + x_refine;
+    x_space2 = [x_space_left(1:2:end), x_space_left(end),...
+                x_space_right(1:2:end), x_space_right(end)];    
     
-    center=(a+b)/2;
-    %x_space_right=rescale(x_refine,center+center_space/2,b);
-    x_space_right=scaledata(x_refine,center+center_space/2,b);
-    x_space_left=-fliplr(x_space_right-center) + (center);
-    
-    if(center_space==0.0)
-        x_space_right=x_space_right(2:end);
-    end
-    
-    x_space=[x_space_left x_space_right];
+     
+%     x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+%     x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+%     x_space3 = [x_space_left(1:2:end), x_space_left(end),...
+%                 x_space_right(1:2:end), x_space_right(end)]; 
+%             
+%             
+%     x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+%     x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+%     x_space4 = [x_space_left(1:2:end), x_space_left(end),...
+%                 x_space_right(1:2:end), x_space_right(end)];  
+            
+            
+    [x_space3,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right); 
+    [x_space4,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right);
+
 end
 
 
 
 end
+
+function [x_space,x_space_left,x_space_right] = createCoarseSpacing(x_space_left,x_space_right)
+    x_space_left = [x_space_left(1:2:end), x_space_left(end)];
+    x_space_right = [x_space_right(1:2:end), x_space_right(end)];
+    x_space = [x_space_left(1:2:end), x_space_left(end),...
+                x_space_right(1:2:end), x_space_right(end)];  
+end
+
+
 
 function dataout = scaledata(datain,minval,maxval)
 %

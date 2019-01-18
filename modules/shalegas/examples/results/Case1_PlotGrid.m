@@ -1,19 +1,18 @@
 close all;clear;
-PathConfigure;
 
 %Langmuir adsorption
-load('Case1_Langmuir_GridLGR_PROS.mat');
+load('Case1_Langmuir_10000mdft_PROS.mat');
 load('Case1_Langmuir_GridEDFM_PROS_EDFM.mat');
-load('Case1_Langmuir_GridLGREDFM_PROS_EDFM.mat');
+load('Case1_Langmuir_10000mdft_PROS_EDFM.mat');
 
 Data_Ref1 = csvread('CMG_Desorption10000mdft.csv',6,1);
 
 %% Gas flow rate Plot
 %MRST-Shale
 t0=time_list;
-y0=Case1_Grid_LGR_GasPro;
+y0=Case1_Fcd10000mdft_GasPro;
 y1=Case1_Grid_EDFM_GasProEDFM; 
-y2=Case1_Grid_LGREDFM_GasProEDFM; 
+y2=Case1_Fcd10000mdft_GasProEDFM; 
 
 %CMG
 t4=Data_Ref1(:,1); y4=Data_Ref1(:,3).*ft^3; 
@@ -76,10 +75,10 @@ box on;
 
 set(gca,'FontSize',20);
 xlabel('Time [Years]')
-ylabel(sprintf('Cumulative Gas Production\n[10^6 m^3]'))
+ylabel(sprintf('Cumulative Gas Production [10^6 m^3]'))
 xlim([0 30]);
 legend('LGR', ...
-       'EDFM +3.35%',...
-       'LGR+EDFM -0.2%',...
+       'EDFM +3.04%',...
+       'LGR+EDFM -0.27%',...
        'Commerical simulator',...
        'FontSize',20)
