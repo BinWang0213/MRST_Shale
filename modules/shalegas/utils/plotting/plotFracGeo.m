@@ -36,7 +36,7 @@ end
 for i=1:NumHFs
     x = [fl(i,1);fl(i,3)];
     y = [fl(i,2);fl(i,4)];
-    line(x,y,'Color','b','LineWidth',5);
+    line(x,y,'Color','b','LineWidth',3);
     %text(mean(x),mean(y),num2str(i)); % show line numbering
 end
 

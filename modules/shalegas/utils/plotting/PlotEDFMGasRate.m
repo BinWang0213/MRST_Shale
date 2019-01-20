@@ -89,7 +89,7 @@ if(opt.CumPlot==1)%Plot Cumulaive production plot
     ylabel('Cum Production Rate [m^3/day]')
 end
 
-Case1_GridLGR_NFs_GasPro=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
+Case4_Nonplanar_NFs_Geomechs_PROS_EDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
 cumPro=cumtrapz(time_list, convertTo(-[ws_mat(:).qWs]*h, meter^3/day));
 CumulativeProduction=cumPro(end)
 %[mean(M(15:end,2)./PROs(15:end)') mean(M(15:end,3)./PROr(15:end)')]

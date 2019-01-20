@@ -43,8 +43,8 @@ NumNumFracs=size(fl,1);
 %% Define Grid
 
 %Option1. Unifrom mesh for irregular fractures
-%celldim = [5001 31];
-celldim = [241 31];
+celldim = [5001 31];
+%celldim = [241 31];
 G = cartGrid(celldim, physdim);
 
 %Option2. Local grid refinement for vertical hydraulic fractures
@@ -61,6 +61,7 @@ G.NumHFs=NumHydraulicFracs;
 plotFracGeo(physdim,fl,xy_wells,'NaturalFrac',fnm,'FigSize',300);
 %Plot Grid
 %plotGrid(G,'FaceAlpha',1,'EdgeAlpha',0.07), box on,view(2), axis tight;
+Frac2vtk('FracGeo.vtk',physdim,G,fl);
 
 %% Process fracture lines
 [G,fracture] = processFracture2D(G,fl);
@@ -80,7 +81,7 @@ cell_size = mean(physdim)/mean(G.cartDims); min_size = cell_size/2;  % minimum a
 p0=203.4*barsa;
 
 %Matrix
-G.rock.perm = ones(G.cells.num,1) * 150*nano*darcy;
+G.rock.perm = ones(G.cells.num,1) * 100*nano*darcy;
 G.rock.poro = ones(G.cells.num,1) * 0.03;
 
 %Fracture
@@ -140,7 +141,6 @@ state  = initResSol(G, p0);%0-single phase model
 [ws_e, states_e, report_e] = simulateScheduleAD(state, model, schedule);
 
 %PlotEDFMPresSurf(fl,G,states_e,23,'ColorLim',[])
-PlotEDFMPresSurf(fl,G,states_e,numel(time_list),'ColorLim',[])
 data_file='Barnett_PRO_Field.csv';
 PlotEDFMGasRate(time_list,ws_e, ...
     'Formation_thickness',DZ,... %meters
@@ -149,5 +149,7 @@ PlotEDFMGasRate(time_list,ws_e, ...
     'XUnit', day,...
     'Xlim',[1e-1 1e4],...
     'Ylim',[1e4 1e6],...
+    'CumPlot',1,...
     'LogLog',1);
-%PlotEDFMGasRateTransient(time_list,ws_e,'Formation_thickness',fracture.height);
+
+PlotEDFMPresSurf(fl,G,states_e,numel(time_list),'ColorLim',[])
