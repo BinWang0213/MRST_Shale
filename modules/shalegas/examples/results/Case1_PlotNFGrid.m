@@ -28,7 +28,7 @@ hold on;
 l1=plot(t0, y0,'r-', 'LineWidth', 3);
 l2=plot(t0, y1,'b--', 'LineWidth', 3);
 l3=plot(t0, y2,':', 'LineWidth', 3,'color',[44/255, 162/255, 95/255]);
-%l4=plot(t4(logidx4), y4(logidx4),'ko', 'LineWidth', 1,'MarkerSize',9);
+l4=plot(t4(logidx4), y4(logidx4),'ko', 'LineWidth', 1,'MarkerSize',9);
 hold off;
 
 grid on;
@@ -45,12 +45,13 @@ xlim([1e-4 1e4]);
 legend('LGR with NFs', ...
        'EDFM with NFs',...
        'LGR+EDFM with NFs',...
+       'LGR without NFs',...
        'FontSize',20)
    
 %% Cumulative Gas flow rate Plot
-Cum0=cumtrapz(t0,y0); 
-Cum1=cumtrapz(t0,y1);
-Cum2=cumtrapz(t0,y2);
+Cum0=cumtrapz(t0,y0-y4); 
+Cum1=cumtrapz(t0,y1-y4);
+Cum2=cumtrapz(t0,y2-y4);
 
 Cum4=cumtrapz(t4,y4);
 
@@ -75,9 +76,9 @@ box on;
 
 set(gca,'FontSize',20);
 xlabel('Time [Years]')
-ylabel(sprintf('Cumulative Gas Production [10^6 m^3]'))
+ylabel(sprintf('Cumulative Gas Production by NFs \n [10^6 m^3]'))
 xlim([0 30]);
 legend('LGR with NFs', ...
-       'EDFM with NFs +13.59%',...
-       'LGR+EDFM with NFs +16.99%',...
+       'EDFM with NFs +39.31%',...
+       'LGR+EDFM with NFs +49.14%',...
        'FontSize',20)

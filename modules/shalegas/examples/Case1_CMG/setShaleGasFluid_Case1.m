@@ -64,7 +64,7 @@ G.FracCellMask(:)=0; %CMG has adsorptin for all grids
 
 fluid.rho_bulk = parameters.rho_bulk;%kg/m3
 parameters.rhoGS=fluid.rhoGS;
-fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
+% fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
 
 %% [Optional] Shale gas appraent perm for gas slippage flow in the matrix
 %fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muW,G.FracCellMask,parameters);

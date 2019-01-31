@@ -29,7 +29,7 @@ Frac_StartXY=[physdim(1)/2 physdim(2)/2-Frac_halfLength];
 %% Define geometric quantitites
 % Create explicit fracture grid with Log LGR
 
-%{ 
+%%{ 
 %EDFM + LGR
 [G,fl] = ExplicitFracGridNF(physdim,...
     NumFracs,Frac_Spacing,Frac_halfLength,Frac_StartXY,...
@@ -42,7 +42,7 @@ Frac_StartXY=[physdim(1)/2 physdim(2)/2-Frac_halfLength];
     'NF_Length',249.7*ft-0.01*ft/2,...
     'NF_RepeatPatternSpace',0*ft+0.01*ft,...
     'NF_StartXY',[Frac_StartXY(1)-249.7*ft Frac_StartXY(2)]);
-%}
+%%}
 
 
 %{ 

@@ -10,3 +10,6 @@
 2019-01-09T11:45:23	BinPC	Run	F:\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_Desorption10000mdft_LGR.dat	1547055871	C:\Program Files (x86)\CMG\GEM\2015.10\Win_x64\EXE\gm201510.exe	
 2019-01-09T12:09:26	BinPC	Run	F:\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_Desorption50mdft_LGR.dat	1547057347	C:\Program Files (x86)\CMG\GEM\2015.10\Win_x64\EXE\gm201510.exe	
 2019-01-09T12:13:55	BinPC	Submit	F:\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_Desorption5mdft_LGR.dat	1547057577	C:\Program Files (x86)\CMG\GEM\2015.10\Win_x64\EXE\gm201510.exe
+2019-01-20T01:25:32	folorode	Run	C:\Users\folorode\Dropbox\MRST-Shale_BinWang\Code\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_Desorption10000mdft_LGR.dat	1547664060	C:\Program Files (x86)\CMG\GEM\2017.10\Win_x64\EXE\gm201710.exe
+2019-01-29T13:01:43	folorode	Submit	C:\Users\folorode\Dropbox\MRST-Shale_BinWang\Code\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_Desorption10000mdft_LGR.dat	1547664060	C:\Program Files (x86)\CMG\GEM\2017.10\Win_x64\EXE\gm201710.exe
+2019-01-29T13:34:26	folorode	Run	C:\Users\folorode\Dropbox\MRST-Shale_BinWang\Code\mrst-2018a\modules\shalegas\examples\Case1_CMG\CMG_datafile\CMG_base10000mdft.dat	1546637559	C:\Program Files (x86)\CMG\GEM\2017.10\Win_x64\EXE\gm201710.exe
