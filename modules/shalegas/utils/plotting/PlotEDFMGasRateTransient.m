@@ -12,7 +12,7 @@ ws_mat=cell2mat(ws);
 figure('rend','painters','pos',[10 10 800 600]);
 set(gcf,'color','w');
 
-y0=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
+y0=convertTo(-[ws_mat(:).qGs]*h, meter^3/day);
 plot(time_list,y0 ,'r.','MarkerSize',25)
 hold off;
 

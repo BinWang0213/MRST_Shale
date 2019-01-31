@@ -46,16 +46,16 @@ parameters.S_hmax=34*mega*Pascal;   %[MPa] max horizontal stress
 
 
 %% [Necessary] Black-oil fluid properties
-fluid = initSimpleADIFluid('phases','W', ...
+fluid = initSimpleADIFluid('phases','G', ...
                            'cR',parameters.C_Mat, ...
                            'pRef',0*barsa); 
 
 %% [Necessary] Fluid model
 %[fluid.rhoG,fluid.rhoGS]=GasDensityFunc('Empirical',parameters);
 [fluid.rhoG,fluid.rhoGS]=GasDensityFunc('PR-EOS',parameters);
-fluid.bW=@(p) fluid.rhoG(p)./fluid.rhoGS;
-fluid.rhoWS=fluid.rhoGS;
-fluid.muW=GasViscFunc('Lee',fluid.rhoG,parameters);
+fluid.bG=@(p) fluid.rhoG(p)./fluid.rhoGS;
+fluid.rhoGS=fluid.rhoGS;
+fluid.muG=GasViscFunc('Lee',fluid.rhoG,parameters);
 
 %% Genetrate Frac Cell mask to switch physics for matrix and fracture
 [G,deltaM,deltaHF,deltaNF]=setDomainDeltaFunc(G);
@@ -66,7 +66,7 @@ parameters.rhoGS=fluid.rhoGS;
 fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
 
 %% [Optional] Shale gas appraent perm for gas slippage flow in the matrix
-%fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muW,G.FracCellMask,parameters);
+%fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muG,G.FracCellMask,parameters);
 
 %% [Optional] Micro-fracture closure for geomechanics effect in the matrix
 %fluid.k_gangi=MatrixGangiPerm(G.FracCellMask);
@@ -77,6 +77,6 @@ fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
 %fluid.k_naturalfrac=FracClosePerm('NaturalFrac','Soft',p0,G.NFCellMask,parameters);
 
 %% [Optional] Non-darcy Forchheimer in the fracture
-%fluid.k_nondarcy=FracNonDarcy(rock,fluid.rhoG,fluid.muW,G.FracCellMask);
+%fluid.k_nondarcy=FracNonDarcy(rock,fluid.rhoG,fluid.muG,G.FracCellMask);
 
 end

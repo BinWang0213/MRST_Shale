@@ -63,7 +63,7 @@ rock = makeRock(G, perm(:), poro(:));
 fluid=setShaleGasFluid_Case2(G,rock,p0);
 
 %% Define shale gas flow model
-model = WaterModelG(G,rock,fluid);
+model = ShaleGasModel(G,rock,fluid);
 
 %% Assume constant BHP horizontal well
 IJ_wells = markCellbyXY(xy_wells,G);

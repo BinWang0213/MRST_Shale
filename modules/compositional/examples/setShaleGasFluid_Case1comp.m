@@ -35,7 +35,7 @@ parameters.rho_bulk=156.075*lb_ft3; %[kg/m3] matrix bulk density
 
 
 %% [Necessary] Black-oil fluid properties
-fluid = initSimpleADIFluid('phases','W', ...
+fluid = initSimpleADIFluid('phases','G', ...
                            'cR',parameters.C_Mat, ...
                            'pRef',0*psia); 
 
@@ -49,11 +49,11 @@ P_mu=[M(:,1).*psia M(:,3).*centi*poise];
 [fluid.rhoG,fluid.rhoGS]=GasDensityFunc('Table',parameters,'TableData',P_Z);
 %[fluid.rhoG,fluid.rhoGS]=GasDensityFunc('Empirical',parameters);
 %[fluid.rhoG,fluid.rhoGS]=GasDensityFunc('PR-EOS',parameters);
-fluid.bW=@(p) fluid.rhoG(p)./fluid.rhoGS;
-fluid.rhoWS=fluid.rhoGS;
-%fluid.muW=GasViscFunc('Lee',fluid.rhoG,parameters);
-%fluid.muW=GasViscFunc('Jossi',fluid.rhoG,parameters);
-fluid.muW=GasViscFunc('Table',fluid.rhoG,parameters,'TableData',P_mu);
+fluid.bG=@(p) fluid.rhoG(p)./fluid.rhoGS;
+fluid.rhoGS=fluid.rhoGS;
+%fluid.muG=GasViscFunc('Lee',fluid.rhoG,parameters);
+%fluid.muG=GasViscFunc('Jossi',fluid.rhoG,parameters);
+fluid.muG=GasViscFunc('Table',fluid.rhoG,parameters,'TableData',P_mu);
 
 
 %% Genetrate Frac Cell mask to switch physics for matrix and fracture
@@ -67,7 +67,7 @@ fluid.muW=GasViscFunc('Table',fluid.rhoG,parameters,'TableData',P_mu);
 %fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
 
 %% [Optional] Shale gas appraent perm for gas slippage flow in the matrix
-%fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muW,G.FracCellMask,parameters);
+%fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muG,G.FracCellMask,parameters);
 
 %% [Optional] Micro-fracture closure for geomechanics effect in the matrix
 %fluid.k_gangi=MatrixGangiPerm(G.FracCellMask);
@@ -77,6 +77,6 @@ fluid.muW=GasViscFunc('Table',fluid.rhoG,parameters,'TableData',P_mu);
 %fluid.k_naturalfrac=FracClosePerm('NaturalFrac','Soft',p0,G.FracCellMask);
 
 %% [Optional] Non-darcy Forchheimer in the fracture
-%fluid.k_nondarcy=FracNonDarcy(rock,fluid.rhoG,fluid.muW,G.FracCellMask);
+%fluid.k_nondarcy=FracNonDarcy(rock,fluid.rhoG,fluid.muG,G.FracCellMask);
 
 end

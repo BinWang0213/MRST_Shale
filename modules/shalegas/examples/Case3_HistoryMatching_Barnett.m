@@ -76,7 +76,7 @@ G = makeRockFrac(G, K_frac,'porosity', 1-1e-8);
 fluid=setShaleGasFluid_Case3(G,G.rock,p0);
 
 %% Define shale gas flow model
-model = WaterModelG(G,[],fluid);
+model = ShaleGasModel(G,[],fluid);
 
 N = getNeighbourship(G, 'topological', true);
 intx = all(N ~= 0, 2);
@@ -123,6 +123,6 @@ PlotEDFMGasRate(time_list,ws_e, ...
     'XUnit', day,...
     'Xlim',[1e-1 1e4],...
     'Ylim',[1e4 1e6],...
-    'LogLog',1);
+    'LogLog',0);
 PlotEDFMPresSurf(fl,G,states_e,numel(time_list),'ColorLim',[])
 %PlotEDFMGasRateTransient(time_list,ws_e,'Formation_thickness',fracture.height);

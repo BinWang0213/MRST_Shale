@@ -61,7 +61,6 @@ G.NumHFs=NumHydraulicFracs;
 plotFracGeo(physdim,fl,xy_wells,'NaturalFrac',fnm,'FigSize',300);
 %Plot Grid
 %plotGrid(G,'FaceAlpha',1,'EdgeAlpha',0.07), box on,view(2), axis tight;
-Frac2vtk('FracGeo.vtk',physdim,G,fl);
 
 %% Process fracture lines
 [G,fracture] = processFracture2D(G,fl);
@@ -69,6 +68,7 @@ fracture.aperture = 3e-3*meter; % Fracture aperture
 fracture.height=DZ; %Thickness of reservoir
 G.fractureHeight=fracture.height;
 %clf; plotFractureLines(G,fracture);axis equal tight;
+Frac2vtk('FracGeo.vtk',physdim,G,fl);
 
 %% Compute CI and construct fracture grid
 dispif(mrstVerbose, 'Computing CI and constructing fracture grid...\n\n');
@@ -100,7 +100,7 @@ G = updateRockFrac(G, K_NF,'NaturalFracs');
 fluid=setShaleGasFluid_Case4(G,G.rock,p0);
 
 %% Define shale gas flow model
-model = WaterModelG(G,[],fluid);
+model = ShaleGasModel(G,[],fluid);
 
 N = getNeighbourship(G, 'topological', true);
 intx = all(N ~= 0, 2);

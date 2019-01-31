@@ -20,11 +20,10 @@ figure('rend','painters','pos',[10 10 1000 600]);
 set(gcf,'color','w');
 
 time=convertTo(time_list*day,opt.XUnit);
-PROs=convertTo(-[ws_mat(:).qWs]*h, opt.YUnit);
-PROr=convertTo(-[ws_mat(:).qWr]*h, opt.YUnit);
+PROs=convertTo(-[ws_mat(:).qGs]*h, opt.YUnit);
 
 plot(time,PROs,'b-', 'LineWidth', 2)
-%plot(time_list, convertTo(-[ws_mat(:).qWs]*h, 1e5*ft^3/day),'b-', 'LineWidth', 2)
+%plot(time_list, convertTo(-[ws_mat(:).qGs]*h, 1e5*ft^3/day),'b-', 'LineWidth', 2)
 hold on;
 if(~isempty(opt.Reference_data))
     %fname=strcat(pwd,opt.Reference_data);
@@ -90,8 +89,8 @@ if(opt.CumPlot==1)%Plot Cumulaive production plot
     ylabel('Cum Production 10^6 [m^3/day]')
 end
 
-Case1_GridLGREDFM_NFs_GasProEDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
-cumPro=cumtrapz(time_list, convertTo(-[ws_mat(:).qWs]*h, meter^3/day));
+Case1_GridLGREDFM_NFs_GasProEDFM=convertTo(-[ws_mat(:).qGs]*h, meter^3/day);
+cumPro=cumtrapz(time_list, convertTo(-[ws_mat(:).qGs]*h, meter^3/day));
 CumulativeProduction=cumPro(end)
 %[mean(M(15:end,2)./PROs(15:end)') mean(M(15:end,3)./PROr(15:end)')]
 csvwrite('LGR150New.csv',[time PROs'],1);

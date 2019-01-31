@@ -4,11 +4,14 @@
 % pressure-dependent viscosity using either arithmetic averaging of the
 % viscosity or harmonic averaging of the fluid mobility.
 % DataFolder: '\examples\Benchmark_CMG\'
-clear;
-close all;
-%PathConfigure;
+clear;close all;clc;
 % mrstModule add hfm;             % hybrid fracture module
 mrstModule add ad-core ad-props mrst-gui compositional
+
+% ---------------------------------------------------------------------------
+% Basic parameters setup
+%---------------------------------------------------------------------------
+
 %% Define geometric quantitites
 % Create explicit fracture grid with Log LGR
 physdim = [1990*ft 1990*ft 150*ft];
@@ -56,28 +59,21 @@ rock = makeRock(G, perm(:), poro(:));
 % Name of problem and pressure range
 casename = 'onlymethane';
 pwf = 500*psia;
-p_init = 5000*psia;
+p0 = 5000*psia;
 
-% [fluid]=setShaleGasFluid_Case1(G,rock);
-% 
-% %% Define shale gas flow model
-% model = WaterModelG(G,rock,fluid);
-
-%% Assume constant BHP horizontal well
+%% Assume constant BHP vertical well
 IJ_wells = markCellbyXY(xy_wells,G);
 cellInx = sub2ind(G.cartDims, IJ_wells(:,1), IJ_wells(:,2));
-% W = addWell([], G, rock, cellInx,'Dir', 'x','Radius', 0.25*ft, ...
-%         'Type', 'bhp', 'Val', 500*psia,'Comp_i',1);
 
 W = [];
 % Producer
 W = addWell(W, G, rock, cellInx, 'Dir', 'x','Radius', 0.25*ft, ...
-    'comp_i', [1], 'Val', 500*psia, 'sign', -1, 'Type', 'bhp');    
+    'comp_i', [1], 'Val', pwf, 'sign', -1, 'Type', 'bhp');    
 
-%% Impose initial pressure equilibrium
-p0=5000*psia;
-% state  = initResSol(G, p0, 0);%0-single phase model
 
+% ---------------------------------------------------------------------------
+% Compositional model
+%---------------------------------------------------------------------------
 %% Set up model and initial state
 nkr = 2;
 [fluid, info] = getCompositionalFluidCase(casename);
@@ -106,51 +102,6 @@ schedule = simpleSchedule(dt_list, 'W', W);
 %% Run simulations
 [ws_comp, states_comp, report_comp] = simulateScheduleAD(state0, model, schedule);
 
-%% Plot all the results
-lf = get(0, 'DefaultFigurePosition');
-h = figure('Position', lf + [0, -200, 350, 200]);
-nm = ceil(ncomp/2);
-v = [-30, 60];
-for step = 1:numel(states_comp)
-    figure(h); clf
-    state = states_comp{step};
-    for i = 1:ncomp
-        subplot(nm, 3, i);
-        plotCellData(G, state.components(:, i), 'EdgeColor', 'none');
-        view(v);
-        title(fluid.names{i})
-        caxis([0, 1])
-    end
-    subplot(nm, 3, ncomp + 1);
-    plotCellData(G, state.pressure, 'EdgeColor', 'none');
-    view(v);
-    title('Pressure')
-    
-%     subplot(nm, 3, ncomp + 2);
-%     plotCellData(G, state.s(:, 1), 'EdgeColor', 'none');
-%     view(v);
-%     title('sO')
-    
-%     subplot(nm, 3, ncomp + 3);
-%     plotCellData(G, state.s(:, 2), 'EdgeColor', 'none');
-%     view(v);
-%     title('sG')
-%     drawnow
-end
-%% Plot the results in the interactive viewer
-figure(6); clf;
-plotToolbar(G, states_comp)
-view(v);
-axis tight
-
-
-figure(7);
-plotWellSols(ws_comp,cumsum(schedule.step.val))
-tinDays = cumsum(schedule.step.val)/86400;
-
-
-
-
 %---------------------------------------------------------------------------
 % Black oil model
 %---------------------------------------------------------------------------
@@ -158,55 +109,42 @@ tinDays = cumsum(schedule.step.val)/86400;
 [fluid]=setShaleGasFluid_Case1comp(G,rock);
 
 %% Define shale gas flow model
-model = WaterModelG(G,rock,fluid);
-
+model = ShaleGasModel(G,rock,fluid);
 schedule = simpleSchedule(dt_list, 'W', W);
 
 %% Impose initial pressure equilibrium
 state0  = initResSol(G, p0, 0);%0-single phase model
+
+%% Run simulations
 [ws_BO, states_BO, report_BO] = simulateScheduleAD(state0, model, schedule);
 
 
 
+%% Comparsion figures
 names = {'Compositional', 'BlackOil'};
-
 ws = {ws_comp, ws_BO};
 shortname = {'comp', 'BO'};
-plotWellSols(ws_comp, cumsum(schedule.step.val))
-plotWellSols(ws_BO, cumsum(schedule.step.val))
-
-% plotWellSols(ws, cumsum(schedule.step.val), 'datasetnames', names)
-
-% 
-% plotToolbar(G, states);
-% axis equal tight off
-% daspect([1 1 0.2])
-% view(85, 20);
-% plotWell(G, W);
-% title(names{1});
-% colorbar('horiz')
-% 
-% figure; plotToolbar(G, states_ms);
-% axis equal tight off
-% daspect([1 1 0.2])
-% view(85, 20);
-% plotWell(G, W);
-% title(names{2});
-% colorbar('horiz')
+plotWellSols(ws, cumsum(schedule.step.val), 'datasetnames', names)
 
 
+figure
+plotToolbar(G, states_comp);
+axis equal tight off
+daspect([1 1 0.2])
+view(0, 90);
+plotWell(G, W);
+colormap jet(25)
+title(names{1});
+colorbar('horiz')
 
-%plotWellSols({ws_BO},dt_list, 'field','qWs');
-figure(3);
-PlotEDFMGasRate(time_list,ws_BO, ...
-    'YUnit', meter^3/day,...
-    'XUnit', day,...
-    'Xlim',[1e-4 1e4],...
-    'CumPlot',1,...
-    'LogLog',1);
-
-figure(4);
-PlotEDFMPresSurf(fl,G,states_BO,numel(time_list))
+figure; plotToolbar(G, states_BO);
+axis equal tight off
+daspect([1 1 0.2])
+view(0, 90);
+plotWell(G, W);
+colormap jet(25)
+title(names{2});
+colorbar('horiz')
 
 
 PV = sum(G.cells.volumes .* rock.poro)/(ft^3)  %41582 Mrcf

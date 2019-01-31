@@ -88,7 +88,7 @@ G = makeRockFrac(G, K_frac,'porosity', 1-1e-8);
 [fluid]=setShaleGasFluid_Case1(G,G.rock);
 
 %% Define shale gas flow model
-model = WaterModelG(G,[],fluid);
+model = ShaleGasModel(G,[],fluid);
 
 N = getNeighbourship(G, 'topological', true);
 intx = all(N ~= 0, 2);
