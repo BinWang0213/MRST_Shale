@@ -102,7 +102,7 @@ if isfield(fluid,'mG_ad')
 else
     data_file='CMG_PRO_base.csv';
 end
-data_file='LGR250.csv';
+%data_file='LGR250.csv';
 
 %plotWellSols({ws},dt_list, 'field','qWs');
 PlotEDFMGasRate(time_list,ws, ...

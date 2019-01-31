@@ -10,7 +10,7 @@ nc = prod(G.cartDims);
 pres=convertTo(states{step}.pressure, mega*Pascal);
 %pres=convertTo(states{step}.pressure, psia);
 [min(pres) max(pres)]
-%plotCellData(G, pres,'EdgeColor','none')
+plotCellData(G, pres,'EdgeColor','none')
 line(fl(:,1:2:3)',fl(:,2:2:4)','Color','k','LineWidth',1);
 colormap jet(64);
 hcb = colorbar;

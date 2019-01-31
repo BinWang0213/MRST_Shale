@@ -1,6 +1,4 @@
-clc
-clear
-close all
+clc;clear;close all
 
 mrstModule add compositional deckformat ad-core ad-props 
 

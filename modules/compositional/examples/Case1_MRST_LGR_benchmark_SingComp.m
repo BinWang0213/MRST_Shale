@@ -105,6 +105,7 @@ schedule = simpleSchedule(dt_list, 'W', W);
 
 %% Run simulations
 [ws_comp, states_comp, report_comp] = simulateScheduleAD(state0, model, schedule);
+
 %% Plot all the results
 lf = get(0, 'DefaultFigurePosition');
 h = figure('Position', lf + [0, -200, 350, 200]);
@@ -154,7 +155,7 @@ tinDays = cumsum(schedule.step.val)/86400;
 % Black oil model
 %---------------------------------------------------------------------------
 %% Black-oil shale gas fluid properties
-[fluid]=setShaleGasFluid_Case1(G,rock);
+[fluid]=setShaleGasFluid_Case1comp(G,rock);
 
 %% Define shale gas flow model
 model = WaterModelG(G,rock,fluid);
@@ -173,7 +174,6 @@ ws = {ws_comp, ws_BO};
 shortname = {'comp', 'BO'};
 plotWellSols(ws_comp, cumsum(schedule.step.val))
 plotWellSols(ws_BO, cumsum(schedule.step.val))
-
 
 % plotWellSols(ws, cumsum(schedule.step.val), 'datasetnames', names)
 
@@ -195,19 +195,10 @@ plotWellSols(ws_BO, cumsum(schedule.step.val))
 % colorbar('horiz')
 
 
-if isfield(fluid,'mG_ad')
-    data_file='CMG_PRO_Langmuir.csv';
-else
-    data_file='CMG_PRO_base.csv';
-end
-data_file='LGR250.csv';
 
-
-
-%plotWellSols({ws},dt_list, 'field','qWs');
+%plotWellSols({ws_BO},dt_list, 'field','qWs');
 figure(3);
 PlotEDFMGasRate(time_list,ws_BO, ...
-    'Reference_data',data_file,...
     'YUnit', meter^3/day,...
     'XUnit', day,...
     'Xlim',[1e-4 1e4],...
@@ -215,7 +206,7 @@ PlotEDFMGasRate(time_list,ws_BO, ...
     'LogLog',1);
 
 figure(4);
-PlotEDFMPresSurf(fl,G,states,numel(time_list))
+PlotEDFMPresSurf(fl,G,states_BO,numel(time_list))
 
 
 PV = sum(G.cells.volumes .* rock.poro)/(ft^3)  %41582 Mrcf

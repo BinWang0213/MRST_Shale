@@ -1,4 +1,4 @@
-function fluid=setShaleGasFluid_Case1(G,rock,p0)
+function fluid=setShaleGasFluid_Case1comp(G,rock,p0)
 %{
 General shale gas model manager
 All of input parameters are distributed into each sub-function
@@ -41,7 +41,7 @@ fluid = initSimpleADIFluid('phases','W', ...
 
 %% [Necessary] Fluid model
 %fname=strcat(pwd,'\examples\data\benchmark_CMG_Fluid_Properties.csv');
-fname='CMG_Fluid_Properties.csv';
+fname='MRST_Fluid_Properties.csv';
 M = csvread(fname,1); % P,Z-factor,viscosity
 P_Z=[M(:,1).*psia M(:,2).*1];
 P_mu=[M(:,1).*psia M(:,3).*centi*poise];
@@ -60,11 +60,11 @@ fluid.muW=GasViscFunc('Table',fluid.rhoG,parameters,'TableData',P_mu);
 [deltaM,deltaHF,deltaNF]=setDomainDeltaFunc(G);
 
 %% [Optional] Shale gas adsorption term in the matrix
-G.FracCellMask(:)=0; %CMG has adsorptin for all grids
+%G.FracCellMask(:)=0; %CMG has adsorptin for all grids
 
-fluid.rho_bulk = parameters.rho_bulk;%kg/m3
-parameters.rhoGS=fluid.rhoGS;
-fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
+%fluid.rho_bulk = parameters.rho_bulk;%kg/m3
+%parameters.rhoGS=fluid.rhoGS;
+%fluid.mG_ad=MatrixAdsorptionFunc('Langmuir',G.FracCellMask,parameters);
 
 %% [Optional] Shale gas appraent perm for gas slippage flow in the matrix
 %fluid.kG_app=MatrixApparentPerm('Civan',rock,fluid.muW,G.FracCellMask,parameters);

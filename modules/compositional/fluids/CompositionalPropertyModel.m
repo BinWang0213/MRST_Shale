@@ -52,6 +52,7 @@ classdef CompositionalPropertyModel < PropertyModel
                 % Different estimates based on how far above we are from
                 % the critical temp
                 mu_i = (~large.*34e-5.*tr.^(0.94) + large.*17.78e-5.*(4.58*tr - 1.67).^0.625)./e_i;
+                
                 a = a + x{i}.*mu_i.*mwi;
                 b = b + x{i}.*mwi;
             end

@@ -87,7 +87,7 @@ if(opt.CumPlot==1)%Plot Cumulaive production plot
     end
     set(gca,'FontSize',25);
     xlabel('Time [Years]')
-    ylabel('Cum Production Rate [m^3/day]')
+    ylabel('Cum Production 10^6 [m^3/day]')
 end
 
 Case1_GridLGREDFM_NFs_GasProEDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
