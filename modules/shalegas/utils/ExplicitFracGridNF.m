@@ -135,7 +135,7 @@ if(opt.NumNFs>0)
     y_refinement=symmetric_linspace(0,opt.NF_Spacing,opt.NY_FracRefine,FracCellSize_Y);
     %Log refine
     if(opt.NY_LogRefine==true)
-        y_refinement=symmetric_logspace(0,opt.NF_Spacing,opt.NY_Refine,FracCellSize_Y);
+        y_refinement=symmetric_logspace(0,opt.NF_Spacing,opt.NY_FracRefine,FracCellSize_Y);
         %Log refine single fracture cell
         center_cell_width=opt.NFCellSize; %Well cell centerlizer
         y_frac_cell_refinement=symmetric_logspace(0,FracCellSize_Y,opt.NF_FracRefine,center_cell_width);

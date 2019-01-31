@@ -82,14 +82,15 @@ if(opt.CumPlot==1)%Plot Cumulaive production plot
     end
     hold off;
     
-    Error=(cumPro(end)-cumPro_ref(end))/cumPro_ref(end)
-    
+    if(~isempty(opt.Reference_data)) 
+        Error=(cumPro(end)-cumPro_ref(end))/cumPro_ref(end)
+    end
     set(gca,'FontSize',25);
     xlabel('Time [Years]')
     ylabel('Cum Production Rate [m^3/day]')
 end
 
-Case4_Nonplanar_NFs_Geomechs_PROS_EDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
+Case1_GridLGREDFM_NFs_GasProEDFM=convertTo(-[ws_mat(:).qWs]*h, meter^3/day);
 cumPro=cumtrapz(time_list, convertTo(-[ws_mat(:).qWs]*h, meter^3/day));
 CumulativeProduction=cumPro(end)
 %[mean(M(15:end,2)./PROs(15:end)') mean(M(15:end,3)./PROr(15:end)')]
