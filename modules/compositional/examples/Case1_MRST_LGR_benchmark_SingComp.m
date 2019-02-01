@@ -7,6 +7,7 @@
 clear;close all;clc;
 % mrstModule add hfm;             % hybrid fracture module
 mrstModule add ad-core ad-props mrst-gui compositional
+mrstModule add shalegas
 
 % ---------------------------------------------------------------------------
 % Basic parameters setup
@@ -70,6 +71,28 @@ W = [];
 W = addWell(W, G, rock, cellInx, 'Dir', 'x','Radius', 0.25*ft, ...
     'comp_i', [1], 'Val', pwf, 'sign', -1, 'Type', 'bhp');    
 
+%% Set up schedule and simulate the problem
+%time step has to be setup with wells
+M = csvread('CMG_timestep2.csv',1);
+dt_list=M(:,1)*day;
+time_list=cumsum(convertTo(dt_list,day));
+
+%---------------------------------------------------------------------------
+% Black oil model
+%---------------------------------------------------------------------------
+%% Black-oil shale gas fluid properties
+[fluid]=setShaleGasFluid_Case1comp(G,rock);
+surface_density=fluid.rhoGS;
+
+%% Define shale gas flow model
+model = ShaleGasModel(G,rock,fluid);
+schedule = simpleSchedule(dt_list, 'W', W);
+
+%% Impose initial pressure equilibrium
+state0  = initResSol(G, p0, 0);%0-single phase model
+
+%% Run simulations
+[ws_BO, states_BO, report_BO] = simulateScheduleAD(state0, model, schedule);
 
 % ---------------------------------------------------------------------------
 % Compositional model
@@ -78,6 +101,8 @@ W = addWell(W, G, rock, cellInx, 'Dir', 'x','Radius', 0.25*ft, ...
 nkr = 2;
 [fluid, info] = getCompositionalFluidCase(casename);
 flowfluid = initSimpleADIFluid('n', [nkr, nkr, nkr], 'rho', [1000, 800, 10]);
+%Define surface density
+flowfluid.rhoGS=surface_density;
 
 gravity reset off
 model = NaturalVariablesCompositionalModel(G, rock, flowfluid, fluid, 'water', false);
@@ -91,35 +116,17 @@ state0 = initCompositionalState(G, p0, TinK, s0, info.initial, model.EOSModel);
 for i = 1:numel(W)
     W(i).components = info.initial;
 end
-%% Set up schedule and simulate the problem
-%time step has to be setup with wells
-M = csvread('CMG_timestep2.csv',1);
-dt_list=M(:,1)*day;
-time_list=cumsum(convertTo(dt_list,day));
+
 
 schedule = simpleSchedule(dt_list, 'W', W);
 
 %% Run simulations
 [ws_comp, states_comp, report_comp] = simulateScheduleAD(state0, model, schedule);
 
+
+% ---------------------------------------------------------------------------
+% Solution Comparsion
 %---------------------------------------------------------------------------
-% Black oil model
-%---------------------------------------------------------------------------
-%% Black-oil shale gas fluid properties
-[fluid]=setShaleGasFluid_Case1comp(G,rock);
-
-%% Define shale gas flow model
-model = ShaleGasModel(G,rock,fluid);
-schedule = simpleSchedule(dt_list, 'W', W);
-
-%% Impose initial pressure equilibrium
-state0  = initResSol(G, p0, 0);%0-single phase model
-
-%% Run simulations
-[ws_BO, states_BO, report_BO] = simulateScheduleAD(state0, model, schedule);
-
-
-
 %% Comparsion figures
 names = {'Compositional', 'BlackOil'};
 ws = {ws_comp, ws_BO};

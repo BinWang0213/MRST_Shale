@@ -1,8 +1,0 @@
-#ifndef VESIMULATOR_CONFIGURE_H
-#define VESIMULATOR_CONFIGURE_H
-
-#cmakedefine USE_CUDA
-#cmakedefine CUDA_HAS_DOUBLE
-
-#define BLOCK_SIZE @VESimulator_BLOCK_SIZE@
-#endif

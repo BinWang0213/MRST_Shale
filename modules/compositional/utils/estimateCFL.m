@@ -20,4 +20,4 @@ function cfl = estimateCFL(model, state, dt, W)
             cfl(w.cells) = max(cfl(w.cells), cfl_w);
         end
     end
-end
+end

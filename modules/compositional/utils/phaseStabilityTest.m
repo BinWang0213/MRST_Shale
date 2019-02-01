@@ -47,7 +47,7 @@ function [stable, x, y] = phaseStabilityTest(eos, z, p, T, x, y, varargin)
 %   `EquationOfStateModel`
 
 %{
-Copyright 2009-2017 SINTEF Digital, Mathematics & Cybernetics.
+Copyright 2009-2018 SINTEF Digital, Mathematics & Cybernetics.
 
 This file is part of The MATLAB Reservoir Simulation Toolbox (MRST).
 
@@ -173,4 +173,4 @@ function f = getFugacity(model, A_ij, Bi, xy, p, isLiquid)
     [Si, A, B] = model.getPhaseMixCoefficients(xy, A_ij, Bi);
     Z = model.computeCompressibilityZ(p, xy, A, B, Si, Bi, isLiquid);
     f = model.computeFugacity(p, xy, Z, A, B, Si, Bi);
-end
+end

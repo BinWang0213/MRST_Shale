@@ -15,4 +15,4 @@ function c = expandMatrixToCell(matrix, subset)
     for i = 1:n
         c{i} = matrix(subset, i);
     end
-end
+end

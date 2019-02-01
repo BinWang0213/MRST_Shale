@@ -34,4 +34,4 @@ function [xo, xg, yo, yg, zo, zg, rhoO, rhoG, muO, muG, freeGas] = blackOilToMas
     else
         freeGas = zg > 0;
     end
-end
+end

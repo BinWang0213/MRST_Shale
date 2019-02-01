@@ -5,4 +5,4 @@ function [z, tol] = ensureMinimumFraction(z, tol)
     end
     z = max(z, tol);
     z = bsxfun(@rdivide, z, sum(z, 2));
-end
+end

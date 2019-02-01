@@ -20,4 +20,4 @@ function state0 = convertBlackOilStateToCompositional(bomodel, state)
     
     state0.y = repmat([yo, yg], bomodel.G.cells.num, 1);
     state0.T = repmat(273.15, bomodel.G.cells.num, 1);
-end
+end

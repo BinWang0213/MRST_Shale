@@ -17,4 +17,4 @@ function frac = getNonUnitMoleFraction(model, massfraction, massfraction_normali
         frac = mass./total;
     end
     
-end
+end

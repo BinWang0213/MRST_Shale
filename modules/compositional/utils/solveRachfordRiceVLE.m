@@ -142,4 +142,4 @@ function [dL, r] = getIncrement(L, K, z, opt)
         dL = - enum./denom;
         r = enum;
     end
-end
+end

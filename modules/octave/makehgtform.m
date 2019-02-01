@@ -1,2 +1,0 @@
-function makehgtform()
-  error('toimplement')

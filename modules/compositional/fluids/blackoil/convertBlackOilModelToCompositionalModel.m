@@ -45,4 +45,4 @@ function model = convertBlackOilModelToCompositionalModel(bomodel, varargin)
     end
     model = NaturalVariablesCompositionalModel(bomodel.G, bomodel.rock, f, eos);
 
-end
+end

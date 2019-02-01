@@ -7,4 +7,4 @@ function nls = getDefaultFlashNonLinearSolver()
     nls.useRelaxation = true;
     nls.continueOnFailure = true;
     nls.errorOnFailure = false;
-end
+end

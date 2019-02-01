@@ -152,4 +152,4 @@ figure;
 plot([report.Iterations, report_o.Iterations], '-o')
 legend('Natural variables', 'Overall composition')
 xlabel('Step #')
-ylabel('Nonlinear iterations')
+ylabel('Nonlinear iterations')
