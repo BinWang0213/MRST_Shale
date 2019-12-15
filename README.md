@@ -1,6 +1,6 @@
 OpenShale: A Open-source Shale Gas Simulator
 ==============================================================================================
-Bin Wang (binwang.0213@gmail.com), Femi olorode (folorode@lsu.edu)
+Bin Wang (binwang.0213@gmail.com)
 
 Craft & Hawkins Department of Petroleum Engineering, Louisiana State University, US
 
@@ -39,24 +39,6 @@ After downloading and unzipping the current <a href="https://github.com/BinWang0
 | Case 2  | Case2_MRST_LGR_benchmark.m  | 5 vertical HFs verification case (Jiang et al, 2015) |
 | Case 3  | Case3_HistoryMatching_Barnett.m  | 28 vertical HFs history matching case of Barnett Shale (Cao et al, 2016) |
 | Case 4  | Case4_NaturalFrac_Geomechanics_Barnett.m  | Same with Case 3 but with non-planar HFs, random generated NFs and geomechanics effect |
-
-## Getting Start
-
-```matlab
-from GRDECL2VTK import * 
-
-#Read GRDECL File
-Model=GeologyModel(filename='./ExampleData/dome.grdecl')
-
-#Convert ECLIPSE grdecl format into VTK
-Model.GRDECL2VTK()
-
-#Decompose the model into sub-volumes in terms of faults automatically (this function requires shapely library)
-Model.decomposeModel()
-
-#Output to VTK format
-Model.Write2VTU()
-```
 
 ## Reference
 
