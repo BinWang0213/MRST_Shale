@@ -1,4 +1,4 @@
-OpenShale: A Open-source Shale Gas Simulator
+MRST-Shale: A Open-source Shale Gas Simulator
 ==============================================================================================
 Bin Wang (binwang.0213@gmail.com)
 
