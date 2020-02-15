@@ -10,7 +10,7 @@ PathConfigure;
 mrstModule add hfm;             % hybrid fracture module
 mrstModule add ad-props ad-core % AD framework
 mrstModule add ad-blackoil      % Three phase simulator
-mrstmodule add OpenShale
+mrstModule add OpenShale
 
 %% Define geometric quantitites
 % Create explicit fracture grid with Log LGR
