@@ -8,7 +8,7 @@ Craft & Hawkins Department of Petroleum Engineering, Louisiana State University,
   <img src = "https://github.com/BinWang0213/MRST_Shale/blob/master/doc/demo.png" height="400">
 </p>
 
-`OpenShale` is a light-weight open source library for simulating flow in naturally-fractured shale-gas reservoirs. 
+`OpenShale` is a light-weight open-source library for simulating flow in naturally-fractured shale-gas reservoirs based on the Matlab Reservoir Simulation Toolbox (MRST) provided by SINTEF ICT (http://www.sintef.no/projectweb/mrst/). It requires MRST to be added to the matlab path by running "startup.m".
 
 Currently available features include:
 
@@ -48,5 +48,6 @@ TBD
 * Krogstad, S., Lie, K.A., Møyner, O., Nilsen, H.M., Raynaud, X. and Skaflestad, B., 2015, February. MRST-AD–an open-source framework for rapid prototyping and evaluation of reservoir simulation problems. In SPE reservoir simulation symposium. Society of Petroleum Engineers.
 
 ## License
+Please cite this project when you using it in your project
 
-This code is compatible with the Opensource Matlab Reservoir Simulation Toolbox (MRST) provided by SINTEF ICT (http://www.sintef.no/projectweb/mrst/). It requires MRST to be added to the matlab path by running "startup.m".
+Wang, B. MRST-Shale: An Open-Source Framework for Generic Numerical Modeling of Unconventional Shale and Tight Gas Reservoirs. Preprints 2020, 2020010080 (doi: 10.20944/preprints202001.0080.v1).
