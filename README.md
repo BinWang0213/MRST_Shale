@@ -38,6 +38,11 @@ TBD
 | Case 3  | Case3_HistoryMatching_Barnett.m  | 28 vertical HFs history matching case of Barnett Shale (Cao et al, 2016) |
 | Case 4  | Case4_NaturalFrac_Geomechanics_Barnett.m  | Same with Case 3 but with non-planar HFs, random generated NFs and geomechanics effect |
 
+## License
+Please cite this project when you using it in your project
+
+Wang, B. MRST-Shale: An Open-Source Framework for Generic Numerical Modeling of Unconventional Shale and Tight Gas Reservoirs. Preprints 2020, 2020010080 (doi: 10.20944/preprints202001.0080.v1).
+
 ## Reference
 
 * Alghalandis, Y.F., 2017. ADFNE: Open source software for discrete fracture network engineering, two and three dimensional applications. Computers & Geosciences, 102, pp.1-11.
@@ -46,8 +51,3 @@ TBD
 * Ţene, M., Bosma, S. B., Al Kobaisi, M. S., & Hajibeygi, H. (2017). Projection-based embedded discrete fracture model (pEDFM). Advances in Water Resources, 105, 205-216.
 * Jiang, J. and Younis, R.M., 2015. Numerical study of complex fracture geometries for unconventional gas reservoirs using a discrete fracture-matrix model. Journal of Natural Gas Science and Engineering, 26, pp.1174-1186.
 * Krogstad, S., Lie, K.A., Møyner, O., Nilsen, H.M., Raynaud, X. and Skaflestad, B., 2015, February. MRST-AD–an open-source framework for rapid prototyping and evaluation of reservoir simulation problems. In SPE reservoir simulation symposium. Society of Petroleum Engineers.
-
-## License
-Please cite this project when you using it in your project
-
-Wang, B. MRST-Shale: An Open-Source Framework for Generic Numerical Modeling of Unconventional Shale and Tight Gas Reservoirs. Preprints 2020, 2020010080 (doi: 10.20944/preprints202001.0080.v1).
