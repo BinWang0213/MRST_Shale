@@ -27,7 +27,7 @@ TODO List:
 
 ## Install & Usage
 
-The code is tested that compatible to `MRST 2018a`. New version of MRST may cause problmes.
+The code is tested and developed based on `MRST 2018a`. New version of MRST may cause problmes.
 
 ## Example List
 | Example | FileName  | Comments |
