@@ -20,10 +20,12 @@ Currently available features include:
 * Fully implicit compositional/black-oil solver with automatic differentiation (Krogstad et al, 2015)
 * Verified solver against commercial simulator (CMG)
 
-TODO List:
+Features available in our new code (https://github.com/UnconvRS/shale/tree/MRST):
 * 3D EDFM verification
 * Improved EDFM such as, projected EDFM (Tene et al, 2017) or compartmental EDFM (Chai, 2018)
 * More verification of compositional simulation 
+
+
 
 ## Install & Usage
 
