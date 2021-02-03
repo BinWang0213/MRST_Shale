@@ -25,7 +25,7 @@ Features available in our new 3D code (https://github.com/UnconvRS/shale/tree/MR
 * 3D verification
 * Compositional simulation 
 
-Our 3D code is also presented in an upcoming book chapter [Advanced Modelling with the MATLAB Reservoir Simulation Toolbox](https://www.cambridge.org/core/books/advanced-modelling-with-the-matlab-reservoir-simulation-toolbox/7AC2425C73F6F729DB88DB1A504FA1E7)  
+This documentation of this code is presented in an upcoming book chapter [Advanced Modelling with the MATLAB Reservoir Simulation Toolbox](https://www.cambridge.org/core/books/advanced-modelling-with-the-matlab-reservoir-simulation-toolbox/7AC2425C73F6F729DB88DB1A504FA1E7)  
 
 ## Install & Usage
 
