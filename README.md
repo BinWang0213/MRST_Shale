@@ -5,7 +5,7 @@ Bin Wang (binwang.0213@gmail.com)
 Craft & Hawkins Department of Petroleum Engineering, Louisiana State University, US
 
 <p align="center">
-  <img src = "https://github.com/BinWang0213/MRST-Shale/blob/master/doc/demo.png" height="400">
+  <img src = "https://github.com/BinWang0213/MRST_Shale/blob/master/doc/demo.png" height="400">
 </p>
 
 `ShOpen` is a light-weight open-source library for simulating flow in naturally-fractured shale-gas reservoirs based on the Matlab Reservoir Simulation Toolbox (MRST) provided by SINTEF ICT (http://www.sintef.no/projectweb/mrst/). It requires MRST to be added to the matlab path by running "startup.m".
