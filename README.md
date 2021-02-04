@@ -1,14 +1,14 @@
-MRST-Shale: A Open-source Shale Gas Simulator
+ShOpen: A Open-source Shale Gas Simulator
 ==============================================================================================
 Bin Wang (binwang.0213@gmail.com)
 
 Craft & Hawkins Department of Petroleum Engineering, Louisiana State University, US
 
 <p align="center">
-  <img src = "https://github.com/BinWang0213/MRST_Shale/blob/master/doc/demo.png" height="400">
+  <img src = "https://github.com/BinWang0213/ShOpen/blob/master/doc/demo.png" height="400">
 </p>
 
-`OpenShale` is a light-weight open-source library for simulating flow in naturally-fractured shale-gas reservoirs based on the Matlab Reservoir Simulation Toolbox (MRST) provided by SINTEF ICT (http://www.sintef.no/projectweb/mrst/). It requires MRST to be added to the matlab path by running "startup.m".
+`ShOpen` is a light-weight open-source library for simulating flow in naturally-fractured shale-gas reservoirs based on the Matlab Reservoir Simulation Toolbox (MRST) provided by SINTEF ICT (http://www.sintef.no/projectweb/mrst/). It requires MRST to be added to the matlab path by running "startup.m".
 
 Currently available features include:
 
@@ -33,18 +33,18 @@ The code is tested and developed based on `MRST 2018a`. New version of MRST may 
 
 ### Install ###
 1. Install [MRST2018a](http://www.mrst.no). 
-2. Add the MRST_Shale folder to the "modules" folder of MRST.
-3. Update the "mrst-2018a/modules/hfm" and "mrst-2018a/modules/compositional"  from  "MRST_Shale/3rdParty"
-4. Update the "mrst-2018a/utils/ADI.m"  from  "MRST_Shale/3rdParty"
+2. Add the ShOpen folder to the "modules" folder of MRST.
+3. Update the "mrst-2018a/modules/hfm" and "mrst-2018a/modules/compositional"  from  "ShOpen/3rdParty"
+4. Update the "mrst-2018a/utils/ADI.m"  from  "ShOpen/3rdParty"
 
 Once MRST and our module are installed and our module can be used like any other MRST module. 
 
 ### Getting start ###
 
-To run examples in MRST_Shale:
+To run examples in ShOpen:
 1. Before any script that relies on the repository is run, MRST must be started. This is done by running the file startup.m which is loacted inside of your MRST directory.
-2. Navigate to  "mrst-2018a/modules/" and add the "MRST_Shale" folder to Path by  "Add to Path" - > "Selected Folders and Subfolderes"
-3. Run any example script in the "MRST_Shale/examples"
+2. Navigate to  "mrst-2018a/modules/" and add the "ShOpen" folder to Path by  "Add to Path" - > "Selected Folders and Subfolderes"
+3. Run any example script in the "ShOpen/examples"
 
 
 this will make the contents of the geochemistry directory available in the workspace.
@@ -61,7 +61,7 @@ this will make the contents of the geochemistry directory available in the works
 ## License
 Please cite this project when you using it in your project
 
-Wang, B. MRST-Shale: An Open-Source Framework for Generic Numerical Modeling of Unconventional Shale and Tight Gas Reservoirs. Preprints 2020, 2020010080 (doi: 10.20944/preprints202001.0080.v1).
+Wang, B. Fidelibus, C. An open-source code for fluid flow simulations in   unconventional fractured reservoirs.
 
 ## Reference
 
