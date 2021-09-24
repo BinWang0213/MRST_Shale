@@ -61,7 +61,8 @@ this will make the contents of the geochemistry directory available in the works
 ## License
 Please cite this project when you using it in your project
 
-Wang, B. MRST-Shale: An Open-Source Framework for Generic Numerical Modeling of Unconventional Shale and Tight Gas Reservoirs. Preprints 2020, 2020010080 (doi: 10.20944/preprints202001.0080.v1).
+Wang B, Fidelibus C. An Open-Source Code for Fluid Flow Simulations in Unconventional Fractured Reservoirs. Geosciences. 2021; 11(2):106. https://doi.org/10.3390/geosciences11020106
+
 
 ## Reference
 
